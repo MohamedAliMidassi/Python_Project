@@ -9,19 +9,20 @@ def home():
     return render_template('index.html')
 
 
-
-
-
 @app.route('/showinfos')
-def showallinfos():
+def showallinfos1():
     if not 'user_id' in session:
         return redirect('/')
     all_coachs=Admin.show_all()
     return render_template('allinfos.html',all_coachs=all_coachs)
 
 
-
-
+@app.route('/showclientinfos')
+def showallinfos2():
+    if not 'user_id' in session:
+        return redirect('/')
+    all_clients=Admin.show_all_clients()
+    return render_template('allinfos.html',all_clients=all_clients)
 
 
 @app.route('/delete/<int:id>')
@@ -32,21 +33,10 @@ def delete_show(id):
     return redirect("/showinfos")
 
 
-
-
-
-
 @app.route('/logout', methods=['post'])
 def logout():
     session.clear()
     return redirect("/")
-
-
-
-
-
-
-
 
 
 @app.route('/login', methods=['post'])

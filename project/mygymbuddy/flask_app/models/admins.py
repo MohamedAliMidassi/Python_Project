@@ -2,6 +2,7 @@ from flask_app.configs.mysqlconnection import connectToMySQL
 from flask_app import DATABASE
 from flask import flash
 from flask_app.models import coachs
+from flask_app.models import clients
 from flask_app.models import users
 
 
@@ -55,6 +56,26 @@ class Admin:
             this_coach.infos=users.User(user_dict)
             all_coachs.append(this_coach)
         return all_coachs
+    
+
+    @classmethod
+    def show_all_clients(cls):
+        query = """
+        SELECT * FROM clients
+        left join users on clients.user_id=users.id;
+        """
+        result=connectToMySQL(DATABASE).query_db(query)
+        all_clients=[]
+        for each_user in result:
+            user_dict={**each_user,
+                        "id":each_user["users.id"],
+                        "created_at":each_user["users.created_at"],
+                        "updated_at":each_user["users.updated_at"]
+                        }
+            this_client=clients.Client(each_user)
+            this_client.infos=users.User(user_dict)
+            all_clients.append(this_client)
+        return all_clients
     
 
 
