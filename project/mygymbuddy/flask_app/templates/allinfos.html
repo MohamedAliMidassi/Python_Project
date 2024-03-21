@@ -26,6 +26,20 @@
             margin-left: 200px;
             /* Same as the width of the sidenav */
         }
+
+        section {
+            height: 950px;
+        }
+        a{
+            text-decoration: none;
+            color: black;
+        }
+        a:hover{
+            color: white;
+        }
+        a:focus {
+            color: white;
+        }
     </style>
 </head>
 
@@ -37,214 +51,233 @@
             </div>
             <div class="side-bar">
                 <ul type="none">
-                    <!--<li><a href="#">Log OUT</a></li>
-                    <li><a href="#home">Home</a></li>
-                    <li><a href="#aboutme">About Me</a></li>
-                    <li><a href="#resume">Resume</a></li>
-                    <li><a href="/showclientinfos">Contact</a></li>-->
+
+                    <li><a href="#coaches">All Coches</a></li>
+                    <li><a href="#clients">All Clients</a></li>
+                    <li><a href="#sports">All Sports</a></li>
+                    <li><a href="#messages">All Messages</a></li>
+
                 </ul>
             </div>
         </div>
         <div class="d-flex gap-2 align-items-center ">
             <form action="/logout" method="post"><input class="btn btn-danger" type="submit" value="Logout"></form>
         </div>
-        <div>
-            <h1>Coachs :</h1>
-            <table class="table">
-                <thead>
-                    <tr>
-                        <th>
-                            FUll name
-                        </th>
-                        <th>
-                            age
-                        </th>
-                        <th>
-                            phone number
-                        </th>
-                        <th>
-                            email
-                        </th>
-                        <th>
-                            certifcat
-                        </th>
-                        <th>
-                            experience
-                        </th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for one_coach in all_coachs %}
-                    <tr>
-                        <td>
-                            {{one_coach.infos.first_name}} {{one_coach.infos.last_name}}
-                        </td>
-                        <td>
-                            {{one_coach.infos.age}}
-                        </td>
-                        <td>
-                            {{one_coach.infos.phone}}
-                        </td>
-                        <td>
-                            {{one_coach.infos.email}}
-                        </td>
-                        <td>
-                            {{one_coach.certifcat}}
-                        </td>
-                        <td>
-                            {{one_coach.experience}}
-                        </td>
-                        <td>
-                            <a href="/coach/{{one_coach.id}}">show info</a>
-                            <a href="/coach/delete/{{one_coach.infos.id}}">delete</a>
-                            <a href="/coach/add">Add</a>
-                        </td>
-                    </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
-        </div>
-        <div>
-            <h1>Clients :</h1>
-            <table class="table">
-                <thead>
-                    <tr>
-                        <th>
-                            Full name
-                        </th>
-                        <th>
-                            age
-                        </th>
-                        <th>
-                            phone number
-                        </th>
-                        <th>
-                            email
-                        </th>
-                        <th>
-                            weight(kg)
-                        </th>
-                        <th>
-                            height(cm)
-                        </th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for one_client in all_clients %}
-                    <tr>
-                        <td>
-                            {{one_client.infos.first_name}} {{one_client.infos.last_name}}
-                        </td>
-                        <td>
-                            {{one_client.infos.age}}
-                        </td>
-                        <td>
-                            {{one_client.infos.phone}}
-                        </td>
-                        <td>
-                            {{one_client.infos.email}}
-                        </td>
-                        <td>
-                            {{one_client.weight}}
-                        </td>
-                        <td>
-                            {{one_client.height}}
-                        </td>
-                        <td>
-                            <a href="/client/{{one_client.id}}">show info</a>
-                            <a href="/client/delete/{{one_client.infos.id}}">delete</a>
-                        </td>
-                    </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
-        </div>
-        <div>
-            <h1>Sports :</h1>
-            <table class="table">
-                <thead>
-                    <tr>
-                        <th>
-                            Sport name
-                        </th>
-                        <th>
-                            genre
-                        </th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for one_sport in all_sports %}
-                    <tr>
-                        <td>
-                            {{one_sport.name}}
-                        </td>
-                        <td>
-                            {{one_sport.genres}}
-                        </td>
-                        <td>
-                            <a href="/sport/{{one_sport.id}}">show info</a>
-                            <a href="/sport/delete/{{one_sport.id}}">delete</a>
-                            <a href="/sport/add">Add</a>
-                        </td>
-                    </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
-        </div>
-        <div>
-            <h1>Mesaages :</h1>
-            <table class="table">
-                <thead>
-                    <tr>
-                        <th>
-                            Full name
-                        </th>
-                        <th>
-                            ID
-                        </th>
-                        <th>
-                            email
-                        </th>
-                        <th>
-                            role
-                        </th>
-                        <th>
-                            comment
-                        </th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for one_message in all_messages %}
-                    <tr>
-                        <td>
-                            {{one_message.infos.first_name}} {{one_message.infos.last_name}}
-                        </td>
-                        <td>
-                            {{one_message.infos.id}}
-                        </td>
-                        <td>
-                            {{one_message.infos.email}}
-                        </td>
-                        <td>
-                            {% if one_message.infos.role==0: %}
+        <section id="coaches">
+            <div>
+                <h1>Coachs :</h1>
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>
+                                FUll name
+                            </th>
+                            <th>
+                                age
+                            </th>
+                            <th>
+                                phone number
+                            </th>
+                            <th>
+                                email
+                            </th>
+                            <th>
+                                certifcat
+                            </th>
+                            <th>
+                                experience
+                            </th>
+                            <th>
+
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for one_coach in all_coachs %}
+                        <tr>
+                            <td>
+                                {{one_coach.infos.first_name}} {{one_coach.infos.last_name}}
+                            </td>
+                            <td>
+                                {{one_coach.infos.age}}
+                            </td>
+                            <td>
+                                {{one_coach.infos.phone}}
+                            </td>
+                            <td>
+                                {{one_coach.infos.email}}
+                            </td>
+                            <td>
+                                {{one_coach.certifcat}}
+                            </td>
+                            <td>
+                                {{one_coach.experience}}
+                            </td>
+                            <td>
+                                <a href="/coach/{{one_coach.id}}" class="btn btn-success">show info</a>
+                                <a href="/coach/delete/{{one_coach.infos.id}}" class="btn btn-danger">delete</a>
+                                <a href="/coach/add" class="btn btn-primary">Add</a>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </section>
+        <section id="clients">
+            <div>
+                <h1>Clients :</h1>
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>
+                                Full name
+                            </th>
+                            <th>
+                                age
+                            </th>
+                            <th>
+                                phone number
+                            </th>
+                            <th>
+                                email
+                            </th>
+                            <th>
+                                weight(kg)
+                            </th>
+                            <th>
+                                height(cm)
+                            </th>
+                            <th>
+                                
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for one_client in all_clients %}
+                        <tr>
+                            <td>
+                                {{one_client.infos.first_name}} {{one_client.infos.last_name}}
+                            </td>
+                            <td>
+                                {{one_client.infos.age}}
+                            </td>
+                            <td>
+                                {{one_client.infos.phone}}
+                            </td>
+                            <td>
+                                {{one_client.infos.email}}
+                            </td>
+                            <td>
+                                {{one_client.weight}}
+                            </td>
+                            <td>
+                                {{one_client.height}}
+                            </td>
+                            <td>
+                                <a href="/client/{{one_client.id}}" class="btn btn-success">show info</a>
+                                <a href="/client/delete/{{one_client.infos.id}}"  class="btn btn-danger">delete</a>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </section>
+        <section id="sports">
+            <div>
+                <h1>Sports :</h1>
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>
+                                Sport name
+                            </th>
+                            <th>
+                                genre
+                            </th>
+                            <th>
+                                
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for one_sport in all_sports %}
+                        <tr>
+                            <td>
+                                {{one_sport.name}}
+                            </td>
+                            <td>
+                                {{one_sport.genres}}
+                            </td>
+                            <td>
+                                <a href="/sport/{{one_sport.id}}" class="btn btn-success">show info</a>
+                                <a href="/sport/delete/{{one_sport.id}}"class="btn btn-danger">delete</a>
+                                <a href="/sport/add" class="btn btn-primary">Add</a>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </section>
+        <section id="messages">
+            <div>
+                <h1>Messages :</h1>
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>
+                                Full name
+                            </th>
+                            <th>
+                                ID
+                            </th>
+                            <th>
+                                email
+                            </th>
+                            <th>
+                                role
+                            </th>
+                            <th>
+                                comment
+                            </th>
+                            <th>
+                                
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for one_message in all_messages %}
+                        <tr>
+                            <td>
+                                {{one_message.infos.first_name}} {{one_message.infos.last_name}}
+                            </td>
+                            <td>
+                                {{one_message.infos.id}}
+                            </td>
+                            <td>
+                                {{one_message.infos.email}}
+                            </td>
+                            <td>
+                                {% if one_message.infos.role==0: %}
                                 client
-                            {% else %}
+                                {% else %}
                                 coach
-                            {% endif %}
-                        </td>
-                        <td>
-                            {{one_message.comment}}
-                        </td>
-                        <td>
-                        
-                            <a href="/message/delete/{{one_message.infos.id}}">delete</a>
-                            
-                        </td>
-                    </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
-        </div>
+                                {% endif %}
+                            </td>
+                            <td>
+                                {{one_message.comment}}
+                            </td>
+                            <td>
+                                <a href="/message/delete/{{one_message.infos.id}}"class="btn btn-danger">delete</a>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </section>
     </div>
 </body>
 

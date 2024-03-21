@@ -129,7 +129,7 @@ class Admin:
                         "created_at":each_user["users.created_at"],
                         "updated_at":each_user["users.updated_at"]
                         }
-        this_coach.infos=Admin(user_dict)
+        this_coach.infos=users.User(user_dict)
         return this_coach
     
 
@@ -151,7 +151,7 @@ class Admin:
                         "created_at":each_user["users.created_at"],
                         "updated_at":each_user["users.updated_at"]
                         }
-        this_client.infos=Admin(user_dict)
+        this_client.infos=users.User(user_dict)
         return this_client
     
 
@@ -201,4 +201,3 @@ class Admin:
         query="""DELETE FROM messages WHERE id=%(id)s;"""
         return connectToMySQL(DATABASE).query_db(query,data)
     
-
