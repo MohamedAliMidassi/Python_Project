@@ -1,0 +1,37 @@
+from flask_app.configs.mysqlconnection import connectToMySQL
+from flask_app import DATABASE
+from flask import flash
+from flask_app.controllers import admin_controller
+
+class Sport:
+    def __init__(self,data) :
+        self.id=data["id"]
+        self.name=data["name"]
+        self.genres=data["genres"]
+        self.created_at=data["created_at"]
+        self.updated_at=data["updated_at"]
+
+
+    @classmethod
+    def newsport(cls,data):
+        query = """
+                    insert into sports (name,genres)
+                    values(%(name)s,%(genres)s);
+                """
+        result = connectToMySQL(DATABASE).query_db(query,data)
+        return result
+    
+
+
+    @staticmethod
+    def validate(data):
+        is_valid=True
+        if len(data["name"])==0:
+            is_valid=False
+            flash("name field must be fild ","create")
+        
+        if len(data["genres"])==0:
+            is_valid=False
+            flash("genres field must be fild ","create")
+        return is_valid
+
