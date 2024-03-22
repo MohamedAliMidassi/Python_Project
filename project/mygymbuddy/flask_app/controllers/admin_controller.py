@@ -1,10 +1,12 @@
 from flask_app import app
 from flask import render_template,session,redirect,request,flash
+from flask_bcrypt import Bcrypt
 from flask_app.models.admins import Admin
 from flask_app.models.users import User
 from flask_app.models.sports import Sport
+from flask_app.models.coachs import Coach
 
-
+bcrypt = Bcrypt(app)
 
 
 @app.route('/')
@@ -68,8 +70,7 @@ def one_sport(id):
     if not 'user_id' in session:
         return redirect('/')
     this_sport=Admin.get_sport_infos({"id":id})
-    this_coach=Admin.get_coach_infos({"id":id})
-    return render_template('one_sport.html',this_sport=this_sport,this_coach=this_coach)
+    return render_template('one_sport.html',this_sport=this_sport)
 
 
 
@@ -125,14 +126,45 @@ def create():
     return redirect('/showinfos')
 
 
-
-
-
-@app.route('/coach/add')
-def add_coach():
+@app.route('/users/add')
+def add_user():
     if not 'user_id' in session:
         return redirect('/')
-    return render_template("newcoach.html")
+    return render_template("newuser.html")
+
+
+@app.route('/users/new', methods=['POST'])
+def create_user():
+    if User.validate_user(request.form):
+        pw_hash=bcrypt.generate_password_hash(request.form['password'])
+        data={**request.form,'password':pw_hash}
+        user_id=User.newuser(data)
+        session['user_id']=user_id
+        session["first_name"]=data['first_name']
+        return redirect(f'/coach/add/{user_id}')
+    return redirect('/users/add')
+
+
+
+
+
+@app.route('/coach/add/<int:id>')
+def add_coach(id):
+    if not 'user_id' in session:
+        return redirect('/')
+    all_sports=Admin.show_all_sports()
+    return render_template("newcoach.html",user_id=id,all_sports=all_sports)
+
+@app.route('/coach/new', methods=['POST'])
+def create_coach():
+    if not Coach.validate_coach(request.form):
+        return redirect('/coach/add/<int:id>')
+    Coach.newcoach(request.form )
+
+    return redirect('/showinfos')
+
+
+
 
 
 

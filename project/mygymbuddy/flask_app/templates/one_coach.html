@@ -43,7 +43,7 @@
             color: white;
         }
     </style>
-    <title>Document</title>
+    <title>Admin Dashboard</title>
 </head>
 
 <body>
@@ -61,21 +61,18 @@
         <div class="d-flex gap-2 align-items-center ">
             <form action="/logout" method="post"><input class="btn btn-danger" type="submit" value="Logout"></form>
         </div>
-        <div class="shadow-lg p-3 mb-5 bg-body rounded">
-            <div class="row d-flex justify-content-between">
-                <h2>
-                    {{this_coach.infos.first_name}} {{this_coach.infos.last_name}}
-                </h2>
-                <h4>phone</h4><br>
-                <p>{{this_coach.infos.phone}}</p>
-                <h4>email</h4><br>
-                <p>{{this_coach.infos.email}}</p>
-                <h4>{{this_coach.infos.first_name}}'s experience :</h4><br>
-                <p>
-                    {{this_coach.experience}}
-                </p>
+
+
+        <div class="card" style="width: 18rem;">
+            <div class="card-body">
+                <h5 class="card-title">{{this_coach.infos.first_name}} {{this_coach.infos.last_name}}</h5>
+                <h6 class="card-subtitle mb-2 text-muted">Phone Number :</h6>
+                <p class="card-text">{{this_coach.infos.phone}}</p>
+                <h6 class="card-subtitle mb-2 text-muted">Email :</h6>
+                <p class="card-text">{{this_coach.infos.email}}</p>
+                <h6 class="card-subtitle mb-2 text-muted">{{this_coach.infos.first_name}} 's experience :</h6>
+                <p class="card-text">{{this_coach.experience}}</p>
             </div>
-            </form>
         </div>
     </div>
 

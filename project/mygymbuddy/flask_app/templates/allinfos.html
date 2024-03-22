@@ -65,7 +65,7 @@
         </div>
         <section id="coaches">
             <div>
-                <h1>Coachs :</h1>
+                <h1>Coachs :</h1> <a href="/users/add" class="btn btn-primary">Add</a>
                 <table class="table">
                     <thead>
                         <tr>
@@ -116,7 +116,7 @@
                             <td>
                                 <a href="/coach/{{one_coach.id}}" class="btn btn-success">show info</a>
                                 <a href="/coach/delete/{{one_coach.infos.id}}" class="btn btn-danger">delete</a>
-                                <a href="/coach/add" class="btn btn-primary">Add</a>
+                               
                             </td>
                         </tr>
                         {% endfor %}
@@ -186,7 +186,7 @@
         </section>
         <section id="sports">
             <div>
-                <h1>Sports :</h1>
+                <h1>Sports :</h1><a href="/sport/add" class="btn btn-primary">Add</a>
                 <table class="table">
                     <thead>
                         <tr>
@@ -213,7 +213,7 @@
                             <td>
                                 <a href="/sport/{{one_sport.id}}" class="btn btn-success">show info</a>
                                 <a href="/sport/delete/{{one_sport.id}}"class="btn btn-danger">delete</a>
-                                <a href="/sport/add" class="btn btn-primary">Add</a>
+                                
                             </td>
                         </tr>
                         {% endfor %}

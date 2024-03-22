@@ -43,7 +43,7 @@
             color: white;
         }
     </style>
-    <title>Document</title>
+    <title>Admin Dashboard</title>
 </head>
 
 <body>
@@ -58,25 +58,24 @@
                 </ul>
             </div>
         </div>
-        <div class="shadow-lg p-3 mb-5 bg-body rounded">
-            <div class="d-flex gap-2 align-items-center ">
-                <form action="/logout" method="post"><input class="btn btn-danger" type="submit" value="Logout"></form>
-            </div>
-            <div class="row d-flex justify-content-between">
-                <h2>
-                    {{this_sport.infos.name}}
-                </h2>
-                <h4>phone</h4><br>
-                <p>{{this_coach.infos.phone}}</p>
-                <h4>email</h4><br>
-                <p>{{this_coach.infos.email}}</p>
-                <h4>{{this_coach.infos.first_name}} 's experience :</h4><br>
-                <p>
-                    {{this_sport.experience}}
-                </p>
-            </div>
-            </form>
+        <div class="d-flex gap-2 align-items-center ">
+            <form action="/logout" method="post"><input class="btn btn-danger" type="submit" value="Logout"></form>
         </div>
+        <h3>{{this_sport.name}}</h3>
+        {% for each_coach in this_sport.coachs %}
+        <div class="card" style="width: 18rem;">
+            <div class="card-body">
+                <h5 class="card-title">{{each_coach.details.first_name}}</h5>
+                <h6 class="card-subtitle mb-2 text-muted">Phone Number :</h6>
+                <p class="card-text">{{each_coach.details.phone}}</p>
+                <h6 class="card-subtitle mb-2 text-muted">Email :</h6>
+                <p class="card-text">{{each_coach.details.email}}</p>
+                <h6 class="card-subtitle mb-2 text-muted">{{each_coach.details.first_name}} 's experience :</h6>
+                <p class="card-text">{{each_coach.experience}}</p>
+            </div>
+        </div>
+        {%endfor%}
+
     </div>
 </body>
 

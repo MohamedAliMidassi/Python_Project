@@ -159,21 +159,22 @@ class Admin:
     @classmethod
     def get_sport_infos(cls,data):
         query="""
-                    SELECT * FROM coachs
-                    left join sports  on coachs.sport_id=sports.id
+                    SELECT * FROM sports
+                    left join coachs  on coachs.sport_id=sports.id
                     where sports.id=%(id)s; 
                 """
         result=connectToMySQL(DATABASE).query_db(query,data)
-        this_coach=coachs.Coach(result[0])
-
-        for each_sport in result:
-            sport_dict={**each_sport,
-                        "id":each_sport["sports.id"],
-                        "created_at":each_sport["sports.created_at"],
-                        "updated_at":each_sport["sports.updated_at"]
+        this_sport=sports.Sport(result[0])
+        all_coach=[]
+        for each_coach in result:
+            coach_dict={**each_coach,
+                        "id":each_coach["coachs.id"],
+                        "created_at":each_coach["coachs.created_at"],
+                        "updated_at":each_coach["coachs.updated_at"]
                         }
-        this_coach.infos=sports.Sport(sport_dict)
-        return this_coach
+            all_coach.append(coachs.Coach(coach_dict))
+        this_sport.coachs=all_coach
+        return this_sport
     
 
 
