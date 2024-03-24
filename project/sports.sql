@@ -1,1 +1,1 @@
-SELECT * FROM sports.sports;
+SELECT * FROM sports.clients;

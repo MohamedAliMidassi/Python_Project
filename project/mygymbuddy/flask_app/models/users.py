@@ -18,6 +18,7 @@ class User:
         self.updated_at=data["updated_at"]
 
 
+
     @classmethod
     def get_by_email(cls,data):
         query="""SELECT * FROM users WHERE email=%(email)s"""
@@ -42,6 +43,18 @@ class User:
                 """
         result = connectToMySQL(DATABASE).query_db(query,data)
         return result
+    
+
+    @classmethod
+    def sendreport(cls,data):
+        query = """
+                    insert into message_the_admin (sender_id,reciver_id,title,comment)
+                    values(%(sender_id)s,%(reciver_id)s,%(title)s,%(comment)s);
+                """
+        result = connectToMySQL(DATABASE).query_db(query,data)
+        return result
+    
+    
     
 
     @staticmethod

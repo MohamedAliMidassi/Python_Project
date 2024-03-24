@@ -5,6 +5,8 @@ from flask_app.models.admins import Admin
 from flask_app.models.users import User
 from flask_app.models.sports import Sport
 from flask_app.models.coachs import Coach
+from flask_app.controllers import user_controller
+
 
 bcrypt = Bcrypt(app)
 
@@ -33,7 +35,7 @@ def showallinfos1():
 def client():
     if not 'user_id' in session:
         return redirect('/')
-    return render_template('client.html')
+    return render_template("home_user.html")
 
 
 

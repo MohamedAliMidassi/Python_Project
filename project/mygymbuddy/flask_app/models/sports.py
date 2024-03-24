@@ -22,6 +22,17 @@ class Sport:
         return result
     
 
+    @classmethod
+    def get_all_sport(cls):
+        query = """
+                SELECT * FROM sports;
+                """
+        results = connectToMySQL(DATABASE).query_db(query)
+        all_sports =[]
+        for sport in results :
+            all_sports.append(cls(sport))
+        return all_sports
+    
 
     @staticmethod
     def validate(data):
