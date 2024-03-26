@@ -1,19 +1,23 @@
 from flask_app import app
 from flask import render_template,session,redirect,request,flash
 from flask_bcrypt import Bcrypt
-from flask_app.models.admins import Admin
-from flask_app.models.users import User
 from flask_app.models.sports import Sport
+from flask_app.models.users import User
+from flask_app.models.admins import Admin
+from flask_app.models.messages import Message
 from flask_app.models.coachs import Coach
+from flask_app.models.clients import Client
 from flask_app.controllers import user_controller
+from flask_app.controllers import coach_controller
+from flask_app.controllers import client_controller
 
 
 bcrypt = Bcrypt(app)
 
 
-@app.route('/')
+@app.route("/")
 def home():
-    return render_template('index.html')
+    return render_template("home.html")
 
 
 
@@ -22,20 +26,30 @@ def home():
 def showallinfos1():
     if not 'user_id' in session:
         return redirect('/')
+    all_users=Admin.show_all_users()
     all_coachs=Admin.show_all()
     all_clients=Admin.show_all_clients()
     all_sports=Admin.show_all_sports()
     all_messages=Admin.show_all_messages()
-    return render_template('allinfos.html',all_coachs=all_coachs,all_clients=all_clients,all_sports=all_sports,all_messages=all_messages)
+    name = session['first_name']
+    return render_template('allinfos.html',name=name,all_users=all_users,all_coachs=all_coachs,all_clients=all_clients,all_sports=all_sports,all_messages=all_messages)
 
 
-
-
-@app.route('/userdashboard')
-def client():
-    if not 'user_id' in session:
+@app.route("/userdashboard")
+def user_dashboard():
+    if 'user_id' not in session:
         return redirect('/')
-    return render_template("home_user.html")
+    user_id = session['user_id']
+    
+    all_clients = Coach.show_all_clients_of_coach(user_id)
+    all_sessions = Coach.show_all_Sessions()
+    name = session['first_name']
+    
+    return render_template("home_user.html", user_id=user_id, name=name, all_clients=all_clients, all_sessions=all_sessions)
+
+
+
+
 
 
 
@@ -44,7 +58,9 @@ def client():
 def coach():
     if not 'user_id' in session:
         return redirect('/')
-    return render_template('coach.html')
+    name = session['first_name']
+    user_id = session['user_id']
+    return render_template('dashboard.html',name=name, user_id=user_id)
 
 
 
@@ -82,6 +98,13 @@ def delete_coach(id):
     if not 'user_id' in session:
         return redirect('/')
     Admin.delete_coach({'id':id})
+    return redirect("/showinfos")
+
+@app.route('/user/delete/<int:id>')
+def delete_user(id):
+    if not 'user_id' in session:
+        return redirect('/')
+    Admin.delete_user({'id':id})
     return redirect("/showinfos")
 
 
@@ -144,6 +167,18 @@ def create_user():
         session['user_id']=user_id
         session["first_name"]=data['first_name']
         return redirect(f'/coach/add/{user_id}')
+    return redirect('/users/add')
+
+
+@app.route('/user/new', methods=['POST'])
+def add_new_user():
+    if User.validate_user(request.form):
+        pw_hash=bcrypt.generate_password_hash(request.form['password'])
+        data={**request.form,'password':pw_hash}
+        user_id=User.newuser(data)
+        session['user_id']=user_id
+        session["first_name"]=data['first_name']
+        return redirect('/showinfos')
     return redirect('/users/add')
 
 

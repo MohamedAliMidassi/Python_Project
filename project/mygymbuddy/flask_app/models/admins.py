@@ -6,6 +6,7 @@ from flask_app.models import clients
 from flask_app.models import sports
 from flask_app.models import users
 from flask_app.models import messages
+from flask_app.models import sessions
 
 
 class Admin:
@@ -29,6 +30,7 @@ class Admin:
         if result:
             return cls(result[0])
         return None
+    
     @classmethod
     def get_by_email(cls,data):
         query="""SELECT * FROM users WHERE email=%(email)s"""
@@ -79,7 +81,7 @@ class Admin:
             all_clients.append(this_client)
         return all_clients
     
-    
+   
     
     @classmethod
     def show_all_messages(cls):
@@ -110,6 +112,18 @@ class Admin:
                 show=sports.Sport(row)
                 all_sport.append(show)
             return all_sport
+        return []
+    
+    @classmethod
+    def show_all_users(cls):
+        query = "SELECT * FROM users;"
+        results = connectToMySQL(DATABASE).query_db(query)
+        all_users = []
+        if results :
+            for row in results:
+                show=users.User(row)
+                all_users.append(show)
+            return all_users
         return []
     
 
@@ -200,5 +214,10 @@ class Admin:
     @classmethod
     def delete_message(cls,data):
         query="""DELETE FROM messages WHERE id=%(id)s;"""
+        return connectToMySQL(DATABASE).query_db(query,data)
+    
+    @classmethod
+    def delete_user(cls,data):
+        query="""DELETE FROM users WHERE id=%(id)s;"""
         return connectToMySQL(DATABASE).query_db(query,data)
     

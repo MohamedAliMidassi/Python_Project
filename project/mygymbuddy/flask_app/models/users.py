@@ -1,6 +1,11 @@
 from flask_app.configs.mysqlconnection import connectToMySQL
 from flask_app import DATABASE
 from flask import flash
+from flask_app.models import coachs
+from flask_app.models import clients
+from flask_app.models import sports
+from flask_app.models import messages
+from flask_app.models import sessions
 import re
 
 EMAIL_REGEX = re.compile(r'^[a-zA-Z0-9.+_-]+@[a-zA-Z0-9._-]+\.[a-zA-Z]+$') 
@@ -17,24 +22,8 @@ class User:
         self.created_at=data["created_at"]
         self.updated_at=data["updated_at"]
 
-
-
-    @classmethod
-    def get_by_email(cls,data):
-        query="""SELECT * FROM users WHERE email=%(email)s"""
-        result=connectToMySQL(DATABASE).query_db(query,data)
-        if result:
-            return cls(result[0])
-        return False
     
-    @classmethod
-    def get_by_id(cls,data):
-        query="""SELECT * FROM users WHERE id=%(id)s"""
-        result=connectToMySQL(DATABASE).query_db(query,data)
-        if result:
-            return cls(result[0])
-        return None
-    
+        
     @classmethod
     def newuser(cls,data):
         query = """
@@ -43,17 +32,6 @@ class User:
                 """
         result = connectToMySQL(DATABASE).query_db(query,data)
         return result
-    
-
-    @classmethod
-    def sendreport(cls,data):
-        query = """
-                    insert into message_the_admin (sender_id,reciver_id,title,comment)
-                    values(%(sender_id)s,%(reciver_id)s,%(title)s,%(comment)s);
-                """
-        result = connectToMySQL(DATABASE).query_db(query,data)
-        return result
-    
     
     
 
@@ -68,6 +46,9 @@ class User:
         if len(data["last_name"])==0:
             is_valid=False
             flash("Last Name field must be fild ","create")
+        if len(data["age"])==0:
+            is_valid=False
+            flash("Ager field must be fild ","create")
 
 
         # email validation
@@ -80,7 +61,7 @@ class User:
             flash("invalid email address","create")
             is_valid=False
         #email must be unique
-        if User.get_by_email({'email':data['email']}):
+        if clients.Client.get_by_email({'email':data['email']}):
             flash("Email already in use, hope by you","create")
             is_valid=False
         if len(data["phone"])!=8:
@@ -95,6 +76,25 @@ class User:
         elif data["password"]!=data["confirm_password"]:
             flash("Password must match","create")
             is_valid=False
+        return is_valid
+    
+    
+    @staticmethod
+    def validate_login_user(data):
+        is_valid = True
+
+        if len(data["email"]) < 1:
+            is_valid = False
+            flash("email is required !", "email")
+        # test whether a field matches the pattern
+        elif not EMAIL_REGEX.match(data["email"]):
+            flash("Invalid email address!", "email")
+            is_valid = False
+
+        if len(data["password"]) < 1:
+            is_valid = False
+            flash("password is required !", "password")
+
         return is_valid
 
 

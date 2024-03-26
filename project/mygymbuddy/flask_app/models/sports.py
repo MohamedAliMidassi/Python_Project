@@ -1,7 +1,11 @@
 from flask_app.configs.mysqlconnection import connectToMySQL
 from flask_app import DATABASE
 from flask import flash
-from flask_app.controllers import admin_controller
+from flask_app.models import coachs
+from flask_app.models import clients
+from flask_app.models import users
+from flask_app.models import messages
+from flask_app.models import sessions
 
 class Sport:
     def __init__(self,data) :

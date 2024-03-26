@@ -30,13 +30,16 @@
         section {
             height: 950px;
         }
-        a{
+
+        a {
             text-decoration: none;
             color: black;
         }
-        a:hover{
+
+        a:hover {
             color: white;
         }
+
         a:focus {
             color: white;
         }
@@ -47,11 +50,11 @@
     <div class="main">
         <div class="sidenav">
             <div class="profile">
-                <h3>Welcome to your Dashboard</h3>
+                <h3>Welcome {{name}} to your Dashboard</h3>
             </div>
             <div class="side-bar">
                 <ul type="none">
-
+                    <li><a href="#users">All users</a></li>
                     <li><a href="#coaches">All Coches</a></li>
                     <li><a href="#clients">All Clients</a></li>
                     <li><a href="#sports">All Sports</a></li>
@@ -63,6 +66,63 @@
         <div class="d-flex gap-2 align-items-center ">
             <form action="/logout" method="post"><input class="btn btn-danger" type="submit" value="Logout"></form>
         </div>
+        <section id="users">
+            <div>
+                <h1>Users :</h1> <a href="/users/add" class="btn btn-primary">Add</a>
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>
+                                FUll name
+                            </th>
+                            <th>
+                                age
+                            </th>
+                            <th>
+                                phone number
+                            </th>
+                            <th>
+                                email
+                            </th>
+                            <th>
+                                role
+                            </th>
+
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for one_user in all_users %}
+                        <tr>
+                            <td>
+                                {{one_user.first_name}} {{one_user.last_name}}
+                            </td>
+                            <td>
+                                {{one_user.age}}
+                            </td>
+                            <td>
+                                {{one_user.phone}}
+                            </td>
+                            <td>
+                                {{one_user.email}}
+                            </td>
+                            <td>
+                                {% if one_user.role==0: %}
+                                client
+                                {% elif one_user.role==2: %}
+                                coach
+                                {% else %}
+                                Admin
+                                {% endif %}
+                            </td>
+                            <td>
+                                <a href="/user/delete/{{one_user.id}}" class="btn btn-danger">delete</a>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </section>
         <section id="coaches">
             <div>
                 <h1>Coachs :</h1> <a href="/users/add" class="btn btn-primary">Add</a>
@@ -116,7 +176,7 @@
                             <td>
                                 <a href="/coach/{{one_coach.id}}" class="btn btn-success">show info</a>
                                 <a href="/coach/delete/{{one_coach.infos.id}}" class="btn btn-danger">delete</a>
-                               
+
                             </td>
                         </tr>
                         {% endfor %}
@@ -149,7 +209,7 @@
                                 height(cm)
                             </th>
                             <th>
-                                
+
                             </th>
                         </tr>
                     </thead>
@@ -176,7 +236,7 @@
                             </td>
                             <td>
                                 <a href="/client/{{one_client.id}}" class="btn btn-success">show info</a>
-                                <a href="/client/delete/{{one_client.infos.id}}"  class="btn btn-danger">delete</a>
+                                <a href="/client/delete/{{one_client.infos.id}}" class="btn btn-danger">delete</a>
                             </td>
                         </tr>
                         {% endfor %}
@@ -197,7 +257,7 @@
                                 genre
                             </th>
                             <th>
-                                
+
                             </th>
                         </tr>
                     </thead>
@@ -212,8 +272,8 @@
                             </td>
                             <td>
                                 <a href="/sport/{{one_sport.id}}" class="btn btn-success">show info</a>
-                                <a href="/sport/delete/{{one_sport.id}}"class="btn btn-danger">delete</a>
-                                
+                                <a href="/sport/delete/{{one_sport.id}}" class="btn btn-danger">delete</a>
+
                             </td>
                         </tr>
                         {% endfor %}
@@ -246,7 +306,7 @@
                                 comment
                             </th>
                             <th>
-                                
+
                             </th>
                         </tr>
                     </thead>
@@ -276,7 +336,7 @@
                                 {{one_message.comment}}
                             </td>
                             <td>
-                                <a href="/message/delete/{{one_message.infos.id}}"class="btn btn-danger">delete</a>
+                                <a href="/message/delete/{{one_message.infos.id}}" class="btn btn-danger">delete</a>
                             </td>
                         </tr>
                         {% endfor %}
